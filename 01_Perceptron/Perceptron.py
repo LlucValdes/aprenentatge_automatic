@@ -38,17 +38,26 @@ class Perceptron:
         self : object
 
         """
+        #Set weights to 0
+        z = X.shape[1]
         self.w_ = np.zeros(1 + X.shape[1])
+        for _ in range(self.n_iter):
+            for i in range(X.shape[0]):
+                w = self.eta * (y[i] - self.predict(X[i])) * np.concatenate(([1], X[i]), axis=None)
+                self.w_ += w
+
+
 
         # TODO: Put your code
         return self
 
     def __net_input(self, X):
         """Calculate net input"""
-
         # TODO: Put your code
+        return np.dot(X, self.w_[1:]) + self.w_[0]
 
     def predict(self, X):
         """Return class label"""
 
         # TODO: Put your code
+        return np.where(self.__net_input(X) >= 0.0, 1, -1)

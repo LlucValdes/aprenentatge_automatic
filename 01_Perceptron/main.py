@@ -10,12 +10,27 @@ X, y = make_classification(n_samples=100, n_features=2, n_redundant=0, n_repeate
 y[y == 0] = -1  # La nostra implementació esta pensada per tenir les classes 1 i -1.
 
 # TODO: descomentar en tenir implementat
-# perceptron = Perceptron()
-# perceptron.fit(X, y)
-# y_prediction = perceptron.predict(X)
+perceptron = Perceptron(eta=0.0001, n_iter=100)
+x = perceptron.fit(X, y)
+y_prediction = perceptron.predict(X)
 
 #  Mostram els resultats
 plt.figure(1)
-
+z = X[:, 0]
 plt.scatter(X[:, 0], X[:, 1], c=y)
+
+minim = np.min(X[:, 0])
+maxim = np.max(X[:, 0])
+
+first_coordinate = (minim, (-perceptron.w_[0]-(perceptron.w_[1]*minim)) / perceptron.w_[2])
+second_coordinate = (maxim, (-perceptron.w_[0]-(perceptron.w_[1]*maxim)) / perceptron.w_[2])
+
+plt.plot([first_coordinate[0], second_coordinate[0]], [first_coordinate[1], second_coordinate[1]])
+
+plt.figure(2)
+#plt.plot(perceptron.errors_, marker='o')
+plt.xlabel('Epochs')
+plt.ylabel('Number of misclassifications')
 plt.show()
+
+print(perceptron.w_)
